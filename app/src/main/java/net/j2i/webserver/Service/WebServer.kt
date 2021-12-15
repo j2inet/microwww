@@ -55,6 +55,7 @@ class WebServer {
     fun listenerThread() {
         while(keepRunning) {
             var clientSocket: Socket = this.listenerSocket.accept()
+            clientSocket.soTimeout = 2000;
             val clientSocketHandler = ClientSocketHandler(clientSocket)
             clientSocketHandler.respondAsync()
         }

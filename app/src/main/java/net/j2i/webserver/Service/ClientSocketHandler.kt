@@ -3,6 +3,7 @@ package net.j2i.webserver.Service
 import android.util.Log
 import java.lang.StringBuilder
 import java.net.Socket
+import java.time.LocalDateTime
 import kotlin.concurrent.thread
 
 class ClientSocketHandler {
@@ -29,6 +30,9 @@ class ClientSocketHandler {
         val inputStream = this.clientSocket.getInputStream()
         val outputStream = this.clientSocket.getOutputStream()
         var requestReceived = false;
+
+        var readBuffer = ByteArray(2048);
+
         while(inputStream.available()>0 &&  !requestReceived) {
             val requestLine = inputStream.bufferedReader().readLine()
             Log.i(ClientSocketHandler.TAG, requestLine)
@@ -41,7 +45,10 @@ class ClientSocketHandler {
         sb.appendLine(
             "<html>"+
                     "<head><title>Test</title></head>" +
-                    "<body>Test Response;lkj;ljkojiojioijoij</body>"+
+                    "<body>"+
+                    "<div>Hello from Joel's phone!</div>"+
+                    "<div>"+ LocalDateTime.now().toString() +"</div>"+
+                    "</body>"+
                    "</html>")
         sb.appendLine()
         val responseString = sb.toString()
